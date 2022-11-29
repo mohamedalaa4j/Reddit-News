@@ -1,9 +1,11 @@
-package com.grand.redditnews
+package com.grand.redditnews.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.grand.redditnews.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
 
