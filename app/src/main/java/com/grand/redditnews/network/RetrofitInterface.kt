@@ -1,19 +1,13 @@
 package com.grand.redditnews.network
 
-import com.example.standardtask.data.models.received.MainSliderImagesModel
-import com.example.standardtask.data.models.send.BodySent
-import com.grand.redditnews.utilities.Constants
+import com.grand.redditnews.data.models.received.KotlinNewsModel
+import com.grand.redditnews.utilities.KOTLIN_NEWS_ENDPOINT
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.GET
 
 interface RetrofitInterface {
 
-    @POST(Constants.MAIN_SLIDERS_ENDPOINT)
-    suspend fun getBannerImages(
-        @Header("lang") lang: String,
-        @Body bodySent: BodySent
-    ): Response<MainSliderImagesModel>
+    @GET(KOTLIN_NEWS_ENDPOINT)
+    suspend fun getKotlinNews(): Response<KotlinNewsModel>
 
 }

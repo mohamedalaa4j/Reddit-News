@@ -1,9 +1,7 @@
 package com.grand.redditnews.utilities
 
-object Constants {
 
-     const val BASE_URL = "https://satatechnologygroup.net:3301/api/"
+const val BASE_URL = "https://www.reddit.com/"
 
-     // EndPoints
-     const val MAIN_SLIDERS_ENDPOINT = "MobileMainPage/GetMainSliders/"
-}
+// EndPoints
+const val KOTLIN_NEWS_ENDPOINT = "r/kotlin/.json"

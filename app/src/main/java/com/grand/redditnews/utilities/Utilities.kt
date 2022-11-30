@@ -2,6 +2,7 @@ package com.grand.redditnews.utilities
 
 import android.app.Dialog
 import android.content.Context
+import com.grand.redditnews.R
 import java.util.*
 
 object Utilities {
@@ -11,7 +12,7 @@ object Utilities {
     fun showProgressDialog(context: Context) {
         progressbarDialog = Dialog(context)
         progressbarDialog.setCancelable(false)
-//        progressbarDialog.setContentView(R.layout.progress_dialog)
+        progressbarDialog.setContentView(R.layout.progress_dialog)
         progressbarDialog.show()
     }
 
