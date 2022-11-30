@@ -99,7 +99,7 @@ data class KotlinNewsModel(
                 @SerializedName("downs")
                 val downs: Int?,
                 @SerializedName("edited")
-                val edited: Boolean?,
+                val edited: Any?,
                 @SerializedName("gilded")
                 val gilded: Int?,
                 @SerializedName("gildings")
@@ -146,6 +146,8 @@ data class KotlinNewsModel(
                 val media: Any?,
                 @SerializedName("media_embed")
                 val mediaEmbed: MediaEmbed?,
+                @SerializedName("media_metadata")
+                val mediaMetadata: MediaMetadata?,
                 @SerializedName("media_only")
                 val mediaOnly: Boolean?,
                 @SerializedName("mod_note")
@@ -191,13 +193,13 @@ data class KotlinNewsModel(
                 @SerializedName("score")
                 val score: Int?,
                 @SerializedName("secure_media")
-                val secureMedia: Any?,
+                val secureMedia: SecureMedia?,
                 @SerializedName("secure_media_embed")
                 val secureMediaEmbed: SecureMediaEmbed?,
                 @SerializedName("selftext")
                 val selftext: String?,
                 @SerializedName("selftext_html")
-                val selftextHtml: Any?,
+                val selftextHtml: String?,
                 @SerializedName("send_replies")
                 val sendReplies: Boolean?,
                 @SerializedName("spoiler")
@@ -245,6 +247,15 @@ data class KotlinNewsModel(
                 @SerializedName("wls")
                 val wls: Int?
             ) {
+                data class SecureMedia(
+                    @SerializedName("oembed")
+                    val oembed: Oembed?,
+                ){
+                    data class Oembed(
+                        @SerializedName("thumbnail_url")
+                        val thumbnailUrl: String?
+                    )
+                }
                 data class CrosspostParent(
                     @SerializedName("all_awardings")
                     val allAwardings: List<Any?>?,
@@ -474,6 +485,44 @@ data class KotlinNewsModel(
                     @SerializedName("width")
                     val width: Int?
                 )
+
+                data class MediaMetadata(
+                    @SerializedName("s4mqcrauq23a1")
+                    val s4mqcrauq23a1: S4mqcrauq23a1?
+                ) {
+                    data class S4mqcrauq23a1(
+                        @SerializedName("e")
+                        val e: String?,
+                        @SerializedName("id")
+                        val id: String?,
+                        @SerializedName("m")
+                        val m: String?,
+                        @SerializedName("p")
+                        val p: List<P?>?,
+                        @SerializedName("s")
+                        val s: S?,
+                        @SerializedName("status")
+                        val status: String?
+                    ) {
+                        data class P(
+                            @SerializedName("u")
+                            val u: String?,
+                            @SerializedName("x")
+                            val x: Int?,
+                            @SerializedName("y")
+                            val y: Int?
+                        )
+
+                        data class S(
+                            @SerializedName("u")
+                            val u: String?,
+                            @SerializedName("x")
+                            val x: Int?,
+                            @SerializedName("y")
+                            val y: Int?
+                        )
+                    }
+                }
 
                 data class SecureMediaEmbed(
                     @SerializedName("content")

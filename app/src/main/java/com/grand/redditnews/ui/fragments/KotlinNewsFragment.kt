@@ -1,12 +1,15 @@
 package com.grand.redditnews.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.grand.redditnews.R
+import com.grand.redditnews.adapters.RvAdapterKotlinNews
 import com.grand.redditnews.data.models.received.KotlinNewsModel
 import com.grand.redditnews.databinding.FragmentKotlinNewsBinding
 import com.grand.redditnews.utilities.ScreenState
@@ -29,7 +32,7 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
 
         lifecycleScope.launchWhenStarted {
             viewModel.kotlinNewsStateFlow.collect {
-                kotlinNewsStateFlow(it)
+                parseKotlinNewsStateFlow(it)
             }
         }
 
@@ -40,7 +43,7 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
         binding = null
     }
 
-    private fun kotlinNewsStateFlow(screenState: ScreenState<KotlinNewsModel>) {
+    private fun parseKotlinNewsStateFlow(screenState: ScreenState<KotlinNewsModel>) {
         when (screenState) {
 
             is ScreenState.InitialValue -> {
@@ -52,7 +55,8 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
 
             is ScreenState.Success -> {
                 if (screenState.data != null) {
-                    val response = screenState.data.data?.children?.get(2)?.data?.url
+                    val response = screenState.data.data?.children!!
+                    setupKotlinNewsRV(response)
                 }
                 Utilities.cancelProgressDialog()
             }
@@ -60,9 +64,20 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
 
             is ScreenState.Error -> {
                 Toast.makeText(context, screenState.message, Toast.LENGTH_SHORT).show()
+                Log.e("error", screenState.message.toString())
                 Utilities.cancelProgressDialog()
             }
         }
+    }
+
+    private fun setupKotlinNewsRV(data: List<KotlinNewsModel.Data.Children?>) {
+        binding?.rvNews?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        // adapter
+        val adapter = RvAdapterKotlinNews(data){}
+        binding?.rvNews?.adapter = adapter
+
+
     }
 
 
