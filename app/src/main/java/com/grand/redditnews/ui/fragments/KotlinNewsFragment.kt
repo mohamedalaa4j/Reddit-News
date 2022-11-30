@@ -1,7 +1,6 @@
 package com.grand.redditnews.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -24,17 +23,19 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
     private val viewModel: KotlinNewsFragmentVM by lazy {
         ViewModelProvider(this)[KotlinNewsFragmentVM::class.java]
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentKotlinNewsBinding.bind(view)
 
         viewModel.getKotlinNews()
 
-        lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.kotlinNewsStateFlow.collect {
                 parseKotlinNewsStateFlow(it)
             }
         }
+
 
     }//onViewCreated////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -44,6 +45,7 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
     }
 
     private fun parseKotlinNewsStateFlow(screenState: ScreenState<KotlinNewsModel>) {
+
         when (screenState) {
 
             is ScreenState.InitialValue -> {
@@ -57,14 +59,12 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
                 if (screenState.data != null) {
                     val response = screenState.data.data?.children!!
                     setupKotlinNewsRV(response)
+                    Utilities.cancelProgressDialog()
                 }
-                Utilities.cancelProgressDialog()
             }
-
 
             is ScreenState.Error -> {
                 Toast.makeText(context, screenState.message, Toast.LENGTH_SHORT).show()
-                Log.e("error", screenState.message.toString())
                 Utilities.cancelProgressDialog()
             }
         }
@@ -74,11 +74,10 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
         binding?.rvNews?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         // adapter
-        val adapter = RvAdapterKotlinNews(data){}
+        val adapter = RvAdapterKotlinNews(data) { title ->
+            viewModel.navigateToArticleView(requireView(), title)
+        }
         binding?.rvNews?.adapter = adapter
-
-
     }
-
 
 }

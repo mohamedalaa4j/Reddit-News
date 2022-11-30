@@ -9,5 +9,18 @@
         android:id="@+id/kotlinNewsFragment"
         android:name="com.grand.redditnews.ui.fragments.KotlinNewsFragment"
         android:label="fragment_kotlin_news"
-        tools:layout="@layout/fragment_kotlin_news" />
+        tools:layout="@layout/fragment_kotlin_news" >
+        <action
+            android:id="@+id/action_kotlinNewsFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.grand.redditnews.ui.fragments.ArticleFragment"
+        android:label="fragment_article"
+        tools:layout="@layout/fragment_article" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 </navigation>

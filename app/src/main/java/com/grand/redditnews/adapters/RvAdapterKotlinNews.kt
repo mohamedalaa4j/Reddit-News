@@ -45,9 +45,8 @@ class RvAdapterKotlinNews (
         }
 
 
-
         holder.itemView.setOnClickListener {
-        //    listenerId(item.id.toString())
+            listenerId(item?.data?.title.toString())
         }
 
     }
