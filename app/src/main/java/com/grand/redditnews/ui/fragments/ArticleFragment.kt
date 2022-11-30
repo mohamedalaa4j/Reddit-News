@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.grand.redditnews.R
 import com.grand.redditnews.databinding.FragmentArticleBinding
 
@@ -18,11 +19,22 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
         binding?.ivBack?.setOnClickListener { activity?.onBackPressed() }
 
-        binding?.tvTitle?.text = args.title
+        assignArticleViews()
     }//onViewCreated////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun onDestroy() {
         super.onDestroy()
         binding = null
+    }
+
+    private fun assignArticleViews (){
+        binding?.tvTitle?.text = args.title
+        binding?.tvBody?.text = args.body
+
+        if (args.thumbnail.isNotEmpty()){
+            Glide.with(requireContext()).load(args.thumbnail).into(binding?.iv!!)
+        }else{
+            binding?.iv?.visibility = View.GONE
+        }
     }
 }

@@ -74,8 +74,8 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
         binding?.rvNews?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         // adapter
-        val adapter = RvAdapterKotlinNews(data) { title ->
-            viewModel.navigateToArticleView(requireView(), title)
+        val adapter = RvAdapterKotlinNews(data) { title, body, thumbnail ->
+            viewModel.navigateToArticleView(requireView(), title, body, thumbnail)
         }
         binding?.rvNews?.adapter = adapter
     }

@@ -10,7 +10,7 @@ import com.grand.redditnews.data.models.received.KotlinNewsModel
 import com.grand.redditnews.databinding.RvItemKotlinNewsBinding
 
 class RvAdapterKotlinNews (
-    private val items: List<KotlinNewsModel.Data.Children?>, private val listenerId: (id: String) -> Unit,
+    private val items: List<KotlinNewsModel.Data.Children?>, private val listenerId: (title: String, body:String, thumbnail:String) -> Unit,
 ) : RecyclerView.Adapter<RvAdapterKotlinNews.ViewHolder>(){
 
 
@@ -34,7 +34,6 @@ class RvAdapterKotlinNews (
 
         val context = holder.itemView.context
 
-
         holder.textView.text = item?.data?.title
 
         if (!item?.data?.secureMedia?.oembed?.thumbnailUrl.isNullOrEmpty()){
@@ -46,7 +45,7 @@ class RvAdapterKotlinNews (
 
 
         holder.itemView.setOnClickListener {
-            listenerId(item?.data?.title.toString())
+            listenerId(item?.data?.title.toString(),item?.data?.selftext.toString(),item?.data?.secureMedia?.oembed?.thumbnailUrl.toString())
         }
 
     }

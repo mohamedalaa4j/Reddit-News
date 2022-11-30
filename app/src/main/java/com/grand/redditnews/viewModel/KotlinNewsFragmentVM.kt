@@ -34,8 +34,8 @@ class KotlinNewsFragmentVM @Inject constructor(private val repository: Repositor
         }
     }
 
-    fun navigateToArticleView(view: View, title: String) {
-        val action = KotlinNewsFragmentDirections.actionKotlinNewsFragmentToArticleFragment(title)
+    fun navigateToArticleView(view: View, title: String, body: String, thumbnail:String) {
+        val action = KotlinNewsFragmentDirections.actionKotlinNewsFragmentToArticleFragment(title, body, thumbnail)
         Navigation.findNavController(view).navigate(action)
     }
 }
