@@ -1,8 +1,10 @@
 package com.grand.redditnews.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -28,22 +30,19 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentKotlinNewsBinding.bind(view)
 
-        //retrieve previous cached data
-      if ( viewModel.retrieveCachedData(requireContext()) != null){
-          setupKotlinNewsRV(viewModel.retrieveCachedData(requireContext())?.data?.children!!)
-      }
+        retrieveCachedData(requireContext())
 
-       if (Utilities.isConnected(requireContext())){
-           viewModel.getKotlinNews()
-       }else{
-           Toast.makeText(context,getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show()
-       }
+        if (Utilities.isConnected(requireContext())) {
+            viewModel.getKotlinNews()
+        } else {
+            Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show()
+        }
 
         binding?.btn?.setOnClickListener {
-            if (Utilities.isConnected(requireContext())){
+            if (Utilities.isConnected(requireContext())) {
                 viewModel.getKotlinNews()
-            }else{
-                Toast.makeText(context,getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -53,6 +52,12 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
             }
         }
 
+        //override onBackPressed
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Utilities.doubleTapToExit(activity!!)
+            }
+        })
 
     }//onViewCreated////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,7 +84,7 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
                     setupKotlinNewsRV(response)
 
                     //viewModel.storeObjectInSharedPref(screenState.data.data, "responseCache")
-                    viewModel.cacheTheResponseData(screenState.data,requireContext())
+                    viewModel.cacheTheResponseData(screenState.data, requireContext())
 
                     Utilities.cancelProgressDialog()
                 }
@@ -100,6 +105,12 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
             viewModel.navigateToArticleView(requireView(), title, body, thumbnail)
         }
         binding?.rvNews?.adapter = adapter
+    }
+
+    private fun retrieveCachedData(context: Context) {
+        if (viewModel.retrieveCachedData(context) != null) {
+            setupKotlinNewsRV(viewModel.retrieveCachedData(requireContext())?.data?.children!!)
+        }
     }
 
 }

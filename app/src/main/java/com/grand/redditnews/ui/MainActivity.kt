@@ -2,6 +2,7 @@ package com.grand.redditnews.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.grand.redditnews.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

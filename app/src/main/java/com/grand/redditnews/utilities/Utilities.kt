@@ -1,16 +1,22 @@
 package com.grand.redditnews.utilities
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import com.grand.redditnews.R
 import java.util.*
 
 object Utilities {
 
     private lateinit var progressbarDialog: Dialog
+    private var doubleBackToExitPressedOnce = false
+
 
     fun showProgressDialog(context: Context) {
         progressbarDialog = Dialog(context)
@@ -54,6 +60,23 @@ object Utilities {
             @Suppress("DEPRECATION")
             return networkInfo.isConnected
         }
+    }
+
+     fun doubleTapToExit(activity:Activity){
+
+        if (doubleBackToExitPressedOnce) {
+            activity.finish()
+            return
+        }
+
+        doubleBackToExitPressedOnce = true
+        Toast.makeText(activity, activity.getString(R.string.click_back_again_to_exit), Toast.LENGTH_SHORT)
+            .show()
+
+        Handler(Looper.getMainLooper()).postDelayed(
+            { doubleBackToExitPressedOnce = false },
+            2000
+        )
     }
 
 }

@@ -30,7 +30,7 @@ object AppModule {
         return Dispatchers.IO
     }
 
-    // Context
+    // ApplicationContext
     @Singleton
     @Provides
     fun provideContext(@ApplicationContext context: Context): Context {
