@@ -32,14 +32,14 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
 
         retrieveCachedData(requireContext())
 
-        if (Utilities.isConnected(requireContext())) {
+        if (Utilities.isConnected(activity?.applicationContext!!)) {
             viewModel.getKotlinNews()
         } else {
             Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show()
         }
 
         binding?.ivRefresh?.setOnClickListener {
-            if (Utilities.isConnected(requireContext())) {
+            if (Utilities.isConnected(activity?.applicationContext!!)) {
                 viewModel.getKotlinNews()
             } else {
                 Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show()
