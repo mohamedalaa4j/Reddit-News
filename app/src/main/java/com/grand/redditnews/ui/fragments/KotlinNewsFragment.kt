@@ -38,7 +38,7 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
             Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show()
         }
 
-        binding?.btn?.setOnClickListener {
+        binding?.ivRefresh?.setOnClickListener {
             if (Utilities.isConnected(requireContext())) {
                 viewModel.getKotlinNews()
             } else {
