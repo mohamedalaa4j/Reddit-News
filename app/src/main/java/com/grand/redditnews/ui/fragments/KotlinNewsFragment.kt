@@ -28,7 +28,24 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentKotlinNewsBinding.bind(view)
 
-        viewModel.getKotlinNews()
+        //retrieve previous cached data
+      if ( viewModel.retrieveCachedData(requireContext()) != null){
+          setupKotlinNewsRV(viewModel.retrieveCachedData(requireContext())?.data?.children!!)
+      }
+
+       if (Utilities.isConnected(requireContext())){
+           viewModel.getKotlinNews()
+       }else{
+           Toast.makeText(context,getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show()
+       }
+
+        binding?.btn?.setOnClickListener {
+            if (Utilities.isConnected(requireContext())){
+                viewModel.getKotlinNews()
+            }else{
+                Toast.makeText(context,getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show()
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.kotlinNewsStateFlow.collect {
@@ -58,7 +75,12 @@ class KotlinNewsFragment : Fragment(R.layout.fragment_kotlin_news) {
             is ScreenState.Success -> {
                 if (screenState.data != null) {
                     val response = screenState.data.data?.children!!
+
                     setupKotlinNewsRV(response)
+
+                    //viewModel.storeObjectInSharedPref(screenState.data.data, "responseCache")
+                    viewModel.cacheTheResponseData(screenState.data,requireContext())
+
                     Utilities.cancelProgressDialog()
                 }
             }

@@ -1,9 +1,7 @@
 package com.grand.redditnews.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
-import com.grand.redditnews.R
+import androidx.appcompat.app.AppCompatActivity
 import com.grand.redditnews.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
